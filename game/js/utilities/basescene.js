@@ -1,6 +1,3 @@
-// import {Scene} from 'phaser';
-// import sceneImports from '../utilities/imports.js';
-
 var socket; // define a global variable called socket 
 socket = io.connect(); // send a connection request to the server
 
@@ -33,20 +30,6 @@ var shield = ('/assets/sprites/inventory/shield.png');
 var chainmail = ('/assets/sprites/inventory/chainmail.png');
 var zombieAxe = ('/assets/sprites/inventory/zombieAxe.png');
 
-// Load character objects
-// import Hero from '../classes/characters/hero.js'; 
-// import Goblin from '../classes/characters/goblin.js';
-// import DeathKnight from '../classes/characters/deathKnight.js';
-// import Shadow from '../classes/characters/shadow.js';
-// import Wizard from '../classes/characters/wizard.js';
-// import Ranger from '../classes/characters/ranger.js';
-// import Zombie from '../classes/characters/zombie.js';
-// import Dragon from '../classes/characters/dragon.js';
-
-// actions
-// import enemyClicked from '../classes/actions/enemyClicked.js'
-// import attackStance from '../classes/actions/attackStance.js'
-
 class BaseScene extends Phaser.Scene {
     constructor(key) {
         super({ key });
@@ -71,7 +54,7 @@ class BaseScene extends Phaser.Scene {
         // Loads background images
         this.load.image('dark-background', backgroundImage);
         // ################################ Changes for each scene
-        this.load.image(areaString, area); 
+        this.load.image(areaString, area);
         // ################################
         this.load.image('user-interface', userInterface)
 
@@ -985,6 +968,29 @@ class BaseScene extends Phaser.Scene {
         
     }
 
+}
+
+function enemyClicked(mouseClickX, mouseClickY, enemy, gameScreen) {
+    if (mouseClickX >= enemy.x - (enemy.width / 2) && mouseClickX <= enemy.x + (enemy.width / 2) && mouseClickY >= enemy.y - (enemy.height / 2) && mouseClickY <= enemy.y + (enemy.height / 2) ) {
+        return true;
+    }
+    else if (mouseClickX < gameScreen && mouseClickX > 0 && mouseClickY < gameScreen && mouseClickY > 0){ // Prevents battle mode being changed by clicks outside game screen
+        // this.battleMode = false;
+        return false;
+    }
+}
+
+// Updates attack stance
+function attackStance(mouseClickX, mouseClickY) {
+    if (mouseClickX >= 540 && mouseClickX <=565 && mouseClickY >= 522 && mouseClickY <= 545) {
+        return "Aggressive";
+    }
+    else if (mouseClickX >= 682 && mouseClickX <= 707 && mouseClickY >= 522 && mouseClickY <= 545) {
+        return "Defensive";
+    }
+    else if (mouseClickX >= 540 && mouseClickX <=565 && mouseClickY >= 564 && mouseClickY <= 591) {
+        return "Normal";
+    }
 }
 
 function onsocketConnected () {

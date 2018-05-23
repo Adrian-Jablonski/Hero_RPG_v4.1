@@ -1,29 +1,15 @@
-import BaseScene from '/js/utilities/basescene.js';
-import sceneImports from '../utilities/imports.js'; // Imports all images
-
-// Load character objects
-import Hero from '../classes/characters/hero.js'; 
-import Goblin from '../classes/characters/goblin.js';
-import DeathKnight from '../classes/characters/deathKnight.js';
-import Shadow from '../classes/characters/shadow.js';
-import Wizard from '../classes/characters/wizard.js';
-import Ranger from '../classes/characters/ranger.js';
-import Zombie from '../classes/characters/zombie.js';
-import Dragon from '../classes/characters/dragon.js';
-
-var currArea = [101, 113];
-import area from '/assets/sprites/background-images/area_101_113.png';
-
-export default class Area101_113 extends BaseScene {
+class Area101_113 extends BaseScene {
     constructor() {
-        super(`Area${currArea[0]}_${currArea[1]}`);
+        super(`Area101_113`);
     }
 
     preload() {
-        super.preload(`area${currArea[0]}_${currArea[1]}`, area);
+        var area = '/assets/sprites/background-images/area_101_113.png';
+        super.preload(`area101_113`, area);
     }
 
     create() {
+        var currArea = [101, 113];
         var sceneBorders = {x: [20, 360], y: [20, 480]}; // Scene dimensions
         var areaChanges = {
             northChange : [sceneBorders.x[0],

@@ -1,17 +1,10 @@
-import BaseScene from '/js/utilities/basescene.js';
-import sceneImports from '../utilities/imports.js'; // Imports all images
-
-import area from '/assets/sprites/background-images/Store.png';
-
-// Load character objects
-import Hero from '../classes/characters/hero.js'; 
-
-export default class Store extends BaseScene {
+class Store extends BaseScene {
     constructor() {
         super("Store");
     }
 
     preload() {
+        var area = '/assets/sprites/background-images/Store.png';
         super.preload('Store', area);
     }
 
