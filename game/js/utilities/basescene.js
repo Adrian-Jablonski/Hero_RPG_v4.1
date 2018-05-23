@@ -263,7 +263,11 @@ class BaseScene extends Phaser.Scene {
             this.hero.weaponSlot = this.heroStats.weaponSlot;
             this.hero.weaponSlotIndex = this.heroStats.weaponSlotIndex
             this.hero.shieldSlot = this.heroStats.shieldSlot;
-            this.hero.shieldSlotIndex = this.heroStats.shieldSlotIndex
+            this.hero.shieldSlotIndex = this.heroStats.shieldSlotIndex;
+            this.hero.helmetBonus = this.heroStats.helmetBonus;
+            this.hero.bodyBonus = this.heroStats.bodyBonus;
+            this.hero.weaponBonus = this.heroStats.weaponBonus;
+            this.hero.shieldBonus = this.heroStats.shieldBonus;
 
         }
 
@@ -292,6 +296,9 @@ class BaseScene extends Phaser.Scene {
 
         // Inventory
         this.healingPotionText = this.add.text(705, 317, `${this.hero.items.healingPotion}`, {font:"20px Ariel", color:"Red"})
+
+        this.equipmentPowerBonus = this.add.text(560, 380, "Power: + 0", {font:"20px Ariel", color:this.neon});
+        this.equipmentDefenseBonus = this.add.text(548, 405, "Defense: + 0", {font:"20px Ariel", color:"blue"});
 
         // Damage text
         this.heroDamageText = this.add.text(-20, 20, "", {font:"18px 'Ariel Bold'", color:"Red"});
@@ -379,22 +386,23 @@ class BaseScene extends Phaser.Scene {
                         this.historyTextScroll -= 1
                     }
                 }
+                this.totalDefenseBonus = this.hero.helmetBonus + this.hero.shieldBonus + this.hero.bodyBonus; 
     
                 // Attack stance button
                 if (attackStance(this.mouseClickX, this.mouseClickY) == "Aggressive") {
                     this.hero.attackStance = "Aggressive";
-                    this.hero.powerLvAdj = this.hero.power + 3;
-                    this.hero.defenseLvAdj = Math.max(this.hero.defense - 3, 1);
+                    this.hero.powerLvAdj = this.hero.power + 3 + this.weaponBonus;
+                    this.hero.defenseLvAdj = Math.max(this.hero.defense - 3, 1) + this.totalDefenseBonus;
                 }
                 else if (attackStance(this.mouseClickX, this.mouseClickY) == "Defensive") {
                     this.hero.attackStance = "Defensive";
-                    this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1);
-                    this.hero.defenseLvAdj = this.hero.defense + 3;
+                    this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1) + this.weaponBonus;
+                    this.hero.defenseLvAdj = this.hero.defense + 3 + this.totalDefenseBonus;
                 }
                 else if (attackStance(this.mouseClickX, this.mouseClickY) == "Normal") {
                     this.hero.attackStance = "Normal";
-                    this.hero.powerLvAdj = this.hero.power;
-                    this.hero.defenseLvAdj = this.hero.defense;
+                    this.hero.powerLvAdj = this.hero.power + this.weaponBonus;
+                    this.hero.defenseLvAdj = this.hero.defense + this.totalDefenseBonus;
                 }
     
                 // healing potion
@@ -430,7 +438,6 @@ class BaseScene extends Phaser.Scene {
                     this.hero.helmetSlotIndex += 1
                     if (this.hero.helmetSlotIndex >= this.hero.helmetSlot.length) {
                         this.hero.helmetSlotIndex = 0;
-                        
                     }
                 }
                 if (this.mouseClickX >= 778 && this.mouseClickX <= 815 && this.mouseClickY >= 390 && this.mouseClickY <= 426) {
@@ -457,20 +464,6 @@ class BaseScene extends Phaser.Scene {
     }
 
     update(delta) {
-        // Changes radio button location in attack stance section
-        if (this.hero.attackStance == "Aggressive") {
-            this.radioButton.x = 552;
-            this.radioButton.y = 530;
-        }
-        else if (this.hero.attackStance == "Defensive") {
-            this.radioButton.x = 692;
-            this.radioButton.y = 530;
-        }
-        else if (this.hero.attackStance == "Normal") {
-            this.radioButton.x = 552;
-            this.radioButton.y = 572;
-        }
-
         //Checks if enemy is within range of attacking
         if (this.attackEnemy == true || (this.enemyFighting.battleMode == true && this.attackEnemy == true)) {
             // Has hero chasing enemy 
@@ -958,47 +951,61 @@ class BaseScene extends Phaser.Scene {
             this.sword.x = 690;
             this.sword.y = 405;
             this.zombieAxe.y = -50;
+            this.hero.weaponBonus = 5;
         }
         if (this.hero.items.zombieAxe == 1 && this.hero.weaponSlot[this.hero.weaponSlotIndex] == "zombieAxe") {
             this.zombieAxe.x = 690;
             this.zombieAxe.y = 405;
             this.sword.y = -50;
+            this.hero.weaponBonus = 1;
         }
         if (this.hero.weaponSlot[this.hero.weaponSlotIndex] == "") {
             this.sword.y = -50;
             this.zombieAxe.y = -50;
+            this.hero.weaponBonus = 0;
         }
 
         if (this.hero.items.helmet == 1 && this.hero.helmetSlot[this.hero.helmetSlotIndex] == "helmet") {
             this.helmet.x = 740;
             this.helmet.y = 362;
+            this.hero.helmetBonus = 3;
         }
         else if (this.hero.helmetSlot[this.hero.helmetSlotIndex] == "") {
             this.helmet.y = -50;
+            this.hero.helmetBonus = 0;
         }
 
         if (this.hero.items.shield == 1 && this.hero.shieldSlot[this.hero.shieldSlotIndex] == "shield") {
             this.shield.x = 793;
             this.shield.y = 405;
             this.dragonShield.y = -50;
+            this.hero.shieldBonus = 5;
         }
         else if (this.hero.items.dragonShield == 1 && this.hero.shieldSlot[this.hero.shieldSlotIndex] == "dragonShield") {
             this.dragonShield.x = 793;
             this.dragonShield.y = 405;
             this.shield.y = -50;
+            this.hero.shieldBonus = 2;
         }
         else if (this.hero.shieldSlot[this.hero.shieldSlotIndex] == "") {
             this.shield.y = -50;
             this.dragonShield.y = -50;
+            this.hero.shieldBonus = 0;
         }
 
         if (this.hero.items.chainmail == 1 && this.hero.bodySlot[this.hero.bodySlotIndex] == "chainmail") {
             this.chainmail.x = 740;
             this.chainmail.y = 405;
+            this.hero.bodyBonus = 7;
         }
         else if (this.hero.bodySlot[this.hero.bodySlotIndex] == "") {
             this.chainmail.y = -50;
+            this.hero.bodyBonus = 0;
         }
+
+        this.equipmentPowerBonus.setText(`Power: +${this.hero.weaponBonus}`);
+        this.totalDefenseBonus = this.hero.helmetBonus + this.hero.shieldBonus + this.hero.bodyBonus; 
+        this.equipmentDefenseBonus.setText(`Defense: +${this.totalDefenseBonus}`)
 
         // Equipment
         this.sword.on('pointerover', function(pointer) {
@@ -1014,8 +1021,30 @@ class BaseScene extends Phaser.Scene {
         this.zombieAxe.on('pointerout', function(pointer) {
             this.text.setText(``);
         })
-        
+
+        // Changes radio button location in attack stance section and adjusts levels
+        if (this.hero.attackStance == "Aggressive") {
+            this.radioButton.x = 552;
+            this.radioButton.y = 530;
+            this.hero.powerLvAdj = this.hero.power + 3 + this.hero.weaponBonus;
+            this.hero.defenseLvAdj = Math.max(this.hero.defense - 3, 1) + this.totalDefenseBonus;
+        }
+        else if (this.hero.attackStance == "Defensive") {
+            this.radioButton.x = 692;
+            this.radioButton.y = 530;
+            this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1) + this.weaponBonus;
+            this.hero.defenseLvAdj = this.hero.defense + 3 + this.totalDefenseBonus;
+        }
+        else if (this.hero.attackStance == "Normal") {
+            this.radioButton.x = 552;
+            this.radioButton.y = 572;
+            this.hero.powerLvAdj = this.hero.power  + this.weaponBonus;
+            this.hero.defenseLvAdj = this.hero.defense + this.totalDefenseBonus;
+        }
+        // console.log("Adjusted Power Level", this.hero.powerLvAdj )
+        // console.log("Adjusted Defense Level", this.hero.defenseLvAdj )
     }
+    
 
 }
 
