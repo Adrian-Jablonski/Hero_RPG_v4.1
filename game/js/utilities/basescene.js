@@ -135,6 +135,9 @@ class BaseScene extends Phaser.Scene {
         this.lastClick = this.now;
         this.delay = 300;
 
+        // Timer for healing health every minute
+        this.minuteTimer = Date.now();
+
         // Renders images and sprites to screen
         this.background1 = this.add.image(850 / 2, 700 / 2, 'dark-background');
 	    this.areaBackground = this.add.image(512 / 2, (480 / 2) + 30, areaString);
@@ -464,6 +467,41 @@ class BaseScene extends Phaser.Scene {
     }
 
     update(delta) {
+        // Information to send to database
+        this.playerStats = {
+            x: this.hero.x,
+            y: this.hero.y,
+            power: this.hero.power,
+            defense: this.hero.defense,
+            health: this.hero.health,
+            maxhealth: this.hero.maxhealth,
+            powerExp: this.hero.powerExp,
+            defenseExp: this.hero.defenseExp,
+            healthExp: this.hero.healthExp,
+            coins: this.hero.coins,
+            healingPotion: this.hero.items.healingPotion,
+            helmet: this.hero.items.helmet,
+            sword: this.hero.items.sword,
+            shield: this.hero.items.shield,
+            chainmail: this.hero.items.chainmail,
+            zombieAxe: this.hero.items.zombieAxe,
+            dragonShield: this.hero.items.dragonShield,
+            helmetSlot: this.hero.helmetSlot,
+            helmetSlotIndex: this.hero.helmetSlotIndex,
+            helmetBonus: this.hero.helmetBonus,
+            bodySlot: this.hero.bodySlot,
+            bodySlotIndex: this.hero.bodySlotIndex,
+            bodyBonus: this.hero.bodyBonus,
+            weaponSlot: this.hero.weaponSlot,
+            weaponSlotIndex: this.hero.weaponSlotIndex,
+            weaponBonus: this.hero.weaponBonus,
+            shieldSlot: this.hero.shieldSlot,
+            shieldSlotIndex: this.hero.shieldSlotIndex,
+            shieldBonus: this.hero.shieldBonus,
+            currentArea: this.key,
+
+        }
+
         //Checks if enemy is within range of attacking
         if (this.attackEnemy == true || (this.enemyFighting.battleMode == true && this.attackEnemy == true)) {
             // Has hero chasing enemy 
@@ -623,6 +661,9 @@ class BaseScene extends Phaser.Scene {
                 this.statusBarEnemy100.displayWidth =  (this.enemyFighting.health / this.enemyFighting.maxhealth) * 23;
                 // Hero attacks enemy
                 if (this.attackTimer == this.hero.attackTime && this.hero.battleMode == true) {
+
+                    socket.emit('playerStats', this.playerStats); // sends to server
+                    console.log(this.playerStats);
                 
                     if (this.hero.frozen == false && this.hero.healing == false) {
                         var count = 0;
@@ -693,7 +734,7 @@ class BaseScene extends Phaser.Scene {
                     this.doubleDamageText = false;
                     this.damageTextLocationX = 5;
                     this.hero.frozen = false; // unfreezes hero if frozen
-                    this.hero.speed = 1;
+                    this.hero.speed = 1.3;
                     var count = 0;
                     var specialAttackNumb = Math.floor(Math.random() * (1/this.enemyFighting.specialAttackPerc));
                     this.enemyAttackPower = Math.floor(Math.random() * (this.enemyFighting.power + 4));
@@ -814,7 +855,7 @@ class BaseScene extends Phaser.Scene {
             this.enemyFighting.battleMode = false;
             this.attackEnemy = false;
             this.hero.frozen = false;
-            this.hero.speed = 1;
+            this.hero.speed = 1.3;
             this.doubleDamageText = false;
             // hides status bars
             this.statusBarHero100.y = -40;
@@ -1007,20 +1048,20 @@ class BaseScene extends Phaser.Scene {
         this.totalDefenseBonus = this.hero.helmetBonus + this.hero.shieldBonus + this.hero.bodyBonus; 
         this.equipmentDefenseBonus.setText(`Defense: +${this.totalDefenseBonus}`)
 
-        // Equipment
-        this.sword.on('pointerover', function(pointer) {
-            this.text.setText(`Click to switch weapons`);
-        })
-        this.sword.on('pointerout', function(pointer) {
-            this.text.setText(``);
-        })
+        // //Equipment
+        // this.sword.on('pointerover', function(pointer) {
+        //     this.text.setText(`Sword. Click to switch/ remove`);
+        // })
+        // this.sword.on('pointerout', function(pointer) {
+        //     this.text.setText(``);
+        // })
 
-        this.zombieAxe.on('pointerover', function(pointer) {
-            this.text.setText(`Click to switch weapons`);
-        })
-        this.zombieAxe.on('pointerout', function(pointer) {
-            this.text.setText(``);
-        })
+        // this.zombieAxe.on('pointerover', function(pointer) {
+        //     this.text.setText(`Zombie Axe. Click to switch/ remove`);
+        // })
+        // this.zombieAxe.on('pointerout', function(pointer) {
+        //     this.text.setText(``);
+        // })
 
         // Changes radio button location in attack stance section and adjusts levels
         if (this.hero.attackStance == "Aggressive") {
@@ -1043,6 +1084,24 @@ class BaseScene extends Phaser.Scene {
         }
         // console.log("Adjusted Power Level", this.hero.powerLvAdj )
         // console.log("Adjusted Defense Level", this.hero.defenseLvAdj )
+
+        // socket.emit('playerStats', this.hero);
+
+        this.minuteTimer2 = Date.now();
+        // runs every minute
+        if (this.minuteTimer2 - 60000 >= this.minuteTimer) {
+            console.log("1 minute passed")
+            this.minuteTimer = Date.now();
+            if (this.hero.health < this.hero.maxhealth) {
+                this.hero.health += 1;
+            }
+            for (var i = 0; i < this.enemies.length; i ++) {
+                if (this.enemies[i].health < this.enemies[i].maxhealth) {
+                    this.enemies[i].health += 1
+                }
+            }
+        }
+
     }
     
 

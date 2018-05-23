@@ -46,6 +46,10 @@ app.get('/play', function (req, res) {
     res.send('hello world')
   });
 
+  function playerstats (data) {
+    console.log("Node test", data);
+    
+  };
 
 
 
@@ -55,7 +59,8 @@ app.get('/play', function (req, res) {
     socket.on('disconnect', function () {
         console.log('user disconnected');
         });
- 
+      
+    socket.on('playerStats', playerstats);
     // socket.on("players", onNewplayer);
  
  });
