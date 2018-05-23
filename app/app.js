@@ -13,12 +13,13 @@ var session = require('express-session');
 const bcrypt = require('bcryptjs');
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
-
-
-
-
-
-
+var options = {
+  promiseLib : promise
+}
+var pgp = require('pg-promise')(options);
+var connectionString = 'postgres://localhost:5432/rpg';
+//might need to change database name in order to merge
+var db = pgp(connectionString);
 
 app.use(require("./routes/random"));
 
@@ -30,6 +31,7 @@ app.use(require('./routes/enemies'))
 app.use(require('./routes/highscores'))
 app.use(require('./routes/screenshots'))
 app.use(require('./routes/howtoplay'))
+app.use(require("./routes/api"))
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -47,8 +49,15 @@ app.get('/play', function (req, res) {
   });
 
   function playerstats (data) {
-    console.log("Node test", data);
-    
+    var user = data.username;
+    // var user = "Adrian2";
+    var powerExp = data.powerExp;
+    var powerLv = data.power;
+    // console.log("Node test", data);
+    // console.log("Power exp", data.powerExp)
+    db.any('UPDATE users SET power = $2, powerexp = $3 WHERE username = $1', [user, powerLv, powerExp]).catch(function(err){
+      console.log(err);
+  });
   };
 
 
@@ -62,6 +71,7 @@ app.get('/play', function (req, res) {
       
     socket.on('playerStats', playerstats);
     // socket.on("players", onNewplayer);
+    
  
  });
 

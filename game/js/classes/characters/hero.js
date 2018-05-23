@@ -1,3 +1,32 @@
+var loadData;
+
+$(document).ready(function(){
+    var url = '/characterStats';
+
+    console.log('Check');
+    // Accesses our database
+    var success = function(res){
+        console.log("API Response ", res)
+        loadData = res;
+        console.log(loadData['userData'][0]["username"])
+        // console.log(loadData['userData'][0]["user"])
+
+    }
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: success,
+        dataType: 'json'
+    });
+})
+
+// var helmetSlot1 = [""];
+// var bodySlot = [""];
+
+// if (loadData['userData'][0]["helmet"] == 1) {
+//     helmetSlot1.push("helmet");
+// }
+
 class Hero extends Phaser.GameObjects.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
@@ -5,29 +34,31 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
 
         this.name = "Hero";
-        this.power = 50;
-        this.defense = 50;
-        this.health = 60;
-        this.maxhealth = 60;
+        this.username = loadData['userData'][0]["username"];
+        this.power = loadData['userData'][0]["power"];
+        this.defense = loadData['userData'][0]["defense"];
+        this.health = loadData['userData'][0]["health"];
+        this.maxhealth = loadData['userData'][0]["maxhealth"];
         this.speed = 5;
-        this.powerExp = Math.round((25 + (this.power)) * (this.power) / 1.13767) * (this.power - 1);
-        this.defenseExp = Math.round((25 + (this.defense)) * (this.defense) / 1.13767) * (this.defense - 1);
-        this.healthExp = Math.round((25 + (this.health)) * (this.health) / 1.13767) * (this.health - 1);
+        // this.powerExp = Math.round((25 + (this.power)) * (this.power) / 1.13767) * (this.power - 1);
+        this.powerExp = loadData['userData'][0]["powerexp"];
+        this.defenseExp =  loadData['userData'][0]["defenseexp"];
+        this.healthExp = loadData['userData'][0]["healthexp"];
         this.nextHealthLevelExp = Math.round(((25 + (this.health + 1)) * (this.health + 1) / 1.13767) * this.health);
         this.nextPowerLevelExp = Math.round(((25 + (this.power + 1)) * (this.power + 1) / 1.13767) * this.power);
         this.nextDefenseLevelExp = Math.round(((25 + (this.defense + 1)) * (this.defense + 1) / 1.13767) * this.defense);
-        this.coins = 50000;
+        this.coins = loadData['userData'][0]["coins"];
         this.attackRange = 50;
         this.battleMode = false;
         this.attackTime = 190;
         this.items = {
-            "healingPotion" : 2,
-            "helmet" : 0,
-            "sword" : 0,
-            "shield" : 0,
-            "chainmail" : 0,
-            "zombieAxe" : 0,
-            "dragonShield" : 0
+            "healingPotion" : loadData['userData'][0]["healingpotion"],
+            "helmet" : loadData['userData'][0]["helmet"],
+            "sword" : loadData['userData'][0]["sword"],
+            "shield" : loadData['userData'][0]["shield"],
+            "chainmail" : loadData['userData'][0]["chainmail"],
+            "zombieAxe" : loadData['userData'][0]["zombieAxe"],
+            "dragonShield" : loadData['userData'][0]["dragonShield"]
         }
         this.frozen = false;
         this.healing = false;
@@ -38,17 +69,18 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.defenseBenefit = Math.round(this.defenseLvAdj * .2);
         this.defenseTimes = Math.round(this.defenseLvAdj / 4);
         this.helmetSlot = [""];
-        this.helmetSlotIndex = 0;
+        this.helmetSlotIndex = loadData['userData'][0]["helmetslotindex"];
         this.helmetBonus = 0;
         this.bodySlot = [""];
-        this.bodySlotIndex = 0;
+        this.bodySlotIndex = loadData['userData'][0]["bodylotindex"];
         this.bodyBonus = 0;
         this.weaponSlot = [""];
-        this.weaponSlotIndex = 0;
+        this.weaponSlotIndex = loadData['userData'][0]["weaponlotindex"];;
         this.weaponBonus = 0;
         this.shieldSlot = [""];
-        this.shieldSlotIndex = 0;
+        this.shieldSlotIndex = loadData['userData'][0]["shieldslotindex"];;
         this.shieldBonus = 0;
 
+        
     }    
 }

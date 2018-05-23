@@ -137,6 +137,7 @@ class BaseScene extends Phaser.Scene {
 
         // Timer for healing health every minute
         this.minuteTimer = Date.now();
+        this.minuteTimer4 = Date.now();
 
         // Renders images and sprites to screen
         this.background1 = this.add.image(850 / 2, 700 / 2, 'dark-background');
@@ -469,6 +470,7 @@ class BaseScene extends Phaser.Scene {
     update(delta) {
         // Information to send to database
         this.playerStats = {
+            username: this.hero.username,
             x: this.hero.x,
             y: this.hero.y,
             power: this.hero.power,
@@ -662,7 +664,6 @@ class BaseScene extends Phaser.Scene {
                 // Hero attacks enemy
                 if (this.attackTimer == this.hero.attackTime && this.hero.battleMode == true) {
 
-                    socket.emit('playerStats', this.playerStats); // sends to server
                     console.log(this.playerStats);
                 
                     if (this.hero.frozen == false && this.hero.healing == false) {
@@ -736,6 +737,7 @@ class BaseScene extends Phaser.Scene {
                     if (this.hero.healing == true) {
                         this.hero.healing = false;
                     }
+                    socket.emit('playerStats', this.playerStats); // sends to server
                 }
                 // Enemy attacks hero
                 if (this.attackTimer == this.enemyFighting.attackTime && this.enemyFighting.battleMode == true) {
@@ -837,6 +839,7 @@ class BaseScene extends Phaser.Scene {
 
         // Character death
         if ((this.enemyFighting.health <= 0 || this.hero.health <= 0) && this.enemyFighting.battleMode == true) {
+            socket.emit('playerStats', this.playerStats); // sends to server
             if (this.enemyFighting.health <= 0) {
                 if (this.enemyFighting.status == "Alive") { // Prevents loop that would happen until enemy respawn
                     var enemyBounty = this.enemyFighting.bounty[Math.floor(Math.random() * this.enemyFighting.bounty.length)];
@@ -1115,6 +1118,13 @@ class BaseScene extends Phaser.Scene {
                     this.enemies[i].health += 1
                 }
             }
+        }
+
+        this.minuteTimer3 = Date.now();
+        if (this.minuteTimer3 - 5000 >= this.minuteTimer) {
+            socket.emit('playerStats', this.playerStats); // sends to server
+            this.minuteTimer4 = Date.now();
+            // console.log(this.playerStats);
         }
 
     }
