@@ -29,6 +29,7 @@ var helmet = ('/assets/sprites/inventory/helmet.png');
 var shield = ('/assets/sprites/inventory/shield.png');
 var chainmail = ('/assets/sprites/inventory/chainmail.png');
 var zombieAxe = ('/assets/sprites/inventory/zombieAxe.png');
+var dragonShield = ('/assets/sprites/inventory/dragonShield.png');
 
 class BaseScene extends Phaser.Scene {
     constructor(key) {
@@ -83,7 +84,7 @@ class BaseScene extends Phaser.Scene {
         this.load.image('shield', shield);
         this.load.image('chainmail', chainmail);
         this.load.image('zombieAxe', zombieAxe);
-        this.load.image('dragonShield', zombieAxe);
+        this.load.image('dragonShield', dragonShield);
 
         // Colors 
         this.neon = "#39FF14"
@@ -129,6 +130,11 @@ class BaseScene extends Phaser.Scene {
         this.deadEnemyList = [];
         this.doubleDamageText = false;
 
+        // To prevent double clicking
+        this.now = Date.now();
+        this.lastClick = this.now;
+        this.delay = 300;
+
         // Renders images and sprites to screen
         this.background1 = this.add.image(850 / 2, 700 / 2, 'dark-background');
 	    this.areaBackground = this.add.image(512 / 2, (480 / 2) + 30, areaString);
@@ -145,73 +151,78 @@ class BaseScene extends Phaser.Scene {
         this.chainmail = this.add.image(743, -50, 'chainmail').setInteractive();
         this.dragonShield = this.add.image(743, -50, 'dragonShield').setInteractive();
 
-        if (this.key != "Store") {
-            // Creates characters
-            this.enemies = [];
-            if(Enemy1 != "None") {
-                this.enemy1 = new Enemy1.class({
-                    key: Enemy1.name,
-                    scene: this,
-                    walkAreaX : Enemy1.walkAreaX,
-                    walkAreaY : Enemy1.walkAreaY,
-                    x: Enemy1.x,
-                    y: Enemy1.y,
-                }).setInteractive(); // set interactive allows pointerover event
-            }
-            this.enemies = [this.enemy1];
-            if (Enemy2 != "None") {
-                this.enemy2 = new Enemy2.class({
-                    key: Enemy2.name,
-                    scene: this,
-                    walkAreaX : Enemy2.walkAreaX,
-                    walkAreaY : Enemy2.walkAreaY,
-                    x: Enemy2.x,
-                    y: Enemy2.y,
-                }).setInteractive();  // set interactive allows pointerover event
-                this.enemies = [this.enemy1, this.enemy2];
-            }
-            if (Enemy3 != "None") {
-                this.enemy3 = new Enemy3.class({
-                    key: Enemy3.name,
-                    scene: this,
-                    walkAreaX : Enemy3.walkAreaX,
-                    walkAreaY : Enemy3.walkAreaY,
-                    x: Enemy3.x,
-                    y: Enemy3.y,
-                }).setInteractive();  // set interactive allows pointerover event
-                this.enemies = [this.enemy1, this.enemy2, this.enemy3];
-            }
-            
-            if (Enemy4 != "None") {
-                this.enemy4 = new Enemy4.class({
-                    key: Enemy4.name,
-                    scene: this,
-                    walkAreaX : Enemy4.walkAreaX,
-                    walkAreaY : Enemy4.walkAreaY,
-                    x: Enemy4.x,
-                    y: Enemy4.y,
-                }).setInteractive(); 
-                this.enemies = [this.enemy1, this.enemy2, this.enemy3, this.enemy4];
-            }
-    
-            console.log("Hero Status", this.heroStats === undefined)
+        // if (this.key != "Store") {
+        // Creates characters
+        this.enemies = [];
+        if(Enemy1 != "None") {
+            this.enemy1 = new Enemy1.class({
+                key: Enemy1.name,
+                scene: this,
+                walkAreaX : Enemy1.walkAreaX,
+                walkAreaY : Enemy1.walkAreaY,
+                x: Enemy1.x,
+                y: Enemy1.y,
+            }).setInteractive(); // set interactive allows pointerover event
+        }
+        this.enemies = [this.enemy1];
+        if (Enemy2 != "None") {
+            this.enemy2 = new Enemy2.class({
+                key: Enemy2.name,
+                scene: this,
+                walkAreaX : Enemy2.walkAreaX,
+                walkAreaY : Enemy2.walkAreaY,
+                x: Enemy2.x,
+                y: Enemy2.y,
+            }).setInteractive();  // set interactive allows pointerover event
+            this.enemies = [this.enemy1, this.enemy2];
+        }
+        if (Enemy3 != "None") {
+            this.enemy3 = new Enemy3.class({
+                key: Enemy3.name,
+                scene: this,
+                walkAreaX : Enemy3.walkAreaX,
+                walkAreaY : Enemy3.walkAreaY,
+                x: Enemy3.x,
+                y: Enemy3.y,
+            }).setInteractive();  // set interactive allows pointerover event
+            this.enemies = [this.enemy1, this.enemy2, this.enemy3];
+        }
+        
+        if (Enemy4 != "None") {
+            this.enemy4 = new Enemy4.class({
+                key: Enemy4.name,
+                scene: this,
+                walkAreaX : Enemy4.walkAreaX,
+                walkAreaY : Enemy4.walkAreaY,
+                x: Enemy4.x,
+                y: Enemy4.y,
+            }).setInteractive(); 
+            this.enemies = [this.enemy1, this.enemy2, this.enemy3, this.enemy4];
         }
 
-        else {
-            console.log("Store");
-            this.heroXPos = 450;
-            this.heroYPos = 200;
-            // Creating enemy off screen to prevent errors
-            this.enemy1 = new Goblin({
-                key: 'goblin',
-                scene: this,
-                walkAreaX : [-80, -100],
-                walkAreaY : [-80, -100],
-                x: -90,
-                y: -90,
-            }).setInteractive();
-            this.enemies = [];
+        console.log("Hero Status", this.heroStats === undefined)
+        
+
+        // else {
+        //     console.log("Store");
+        //     this.heroXPos = 450;
+        //     this.heroYPos = 200;
+        //     // Creating enemy off screen to prevent errors
+        //     this.enemy1 = new Goblin({
+        //         key: 'goblin',
+        //         scene: this,
+        //         walkAreaX : [-80, -100],
+        //         walkAreaY : [-80, -100],
+        //         x: -90,
+        //         y: -90,
+        //     }).setInteractive();
+        //     this.enemies = [this.enemy1];
+        // }
+        if (this.key == "Store") {
+            this.heroXPos = 430;
+            this.heroYPos = 250;
         }
+
         if (this.heroStats === undefined) {
             this.hero = new Hero({
                 key: 'hero',
@@ -399,26 +410,45 @@ class BaseScene extends Phaser.Scene {
                         
                     }
                 }
-                // Equipment
-                if (this.mouseClickX >= 672 && this.mouseClickX <=708 && this.mouseClickY >= 390 && this.mouseClickY <= 426) {
-                    this.hero.weaponSlotIndex += 1
-                    if (this.hero.weaponSlotIndex >= 3) {
-                        this.hero.weaponSlotIndex = 0;
-                    }
-
-                    console.log(this.hero.weaponSlotIndex)
-                    console.log(this.hero.items.sword)
-                    console.log(this.hero.weaponSlot.length);
-                }
-                if (this.mouseClickX >= 725 && this.mouseClickX <=763 && this.mouseClickY >= 348 && this.mouseClickY <= 381) {
-                    this.hero.helmetSlotIndex += 1
-                    if (this.hero.helmetSlotIndex > 1) {
-                        this.hero.helmetSlotIndex = 0;
-                    }
-                }
+                
             }
             
 
+        },this);
+
+        this.input.on('pointerup', function(event) {
+            this.now = Date.now();
+            console.log(this.now - this.lastClick)
+            if ((this.now - this.lastClick) >= this.delay) {
+                if (this.mouseClickX >= 672 && this.mouseClickX <=708 && this.mouseClickY >= 390 && this.mouseClickY <= 426 ) {
+                    this.hero.weaponSlotIndex += 1
+                    if (this.hero.weaponSlotIndex >= this.hero.weaponSlot.length) {
+                        this.hero.weaponSlotIndex = 0;
+                    }
+                }
+                if (this.mouseClickX >= 725 && this.mouseClickX <=763 && this.mouseClickY >= 348 && this.mouseClickY <= 381) {
+                    this.hero.helmetSlotIndex += 1
+                    if (this.hero.helmetSlotIndex >= this.hero.helmetSlot.length) {
+                        this.hero.helmetSlotIndex = 0;
+                        
+                    }
+                }
+                if (this.mouseClickX >= 778 && this.mouseClickX <= 815 && this.mouseClickY >= 390 && this.mouseClickY <= 426) {
+                    this.hero.shieldSlotIndex += 1
+                    if (this.hero.shieldSlotIndex >= this.hero.shieldSlot.length) {
+                        this.hero.shieldSlotIndex = 0;
+                    }
+                }
+
+                if (this.mouseClickX >= 725 && this.mouseClickX <= 763 && this.mouseClickY >= 390 && this.mouseClickY <= 426) {
+                    this.hero.bodySlotIndex += 1
+                    if (this.hero.bodySlotIndex >= this.hero.bodySlot.length) {
+                        this.hero.bodySlotIndex = 0;
+                    }
+                }
+                this.lastClick = this.now;
+            }
+            
         },this);
 
         this.timer = 0;
@@ -924,32 +954,51 @@ class BaseScene extends Phaser.Scene {
 
         // Equipment
 
-        if (this.hero.items.sword == 1 && this.hero.weaponSlotIndex == 1) {
+        if (this.hero.items.sword == 1 && this.hero.weaponSlot[this.hero.weaponSlotIndex] == "sword") {
             this.sword.x = 690;
             this.sword.y = 405;
             this.zombieAxe.y = -50;
         }
-        else if (this.hero.items.zombieAxe == 1 && this.hero.weaponSlotIndex == 2) {
+        if (this.hero.items.zombieAxe == 1 && this.hero.weaponSlot[this.hero.weaponSlotIndex] == "zombieAxe") {
             this.zombieAxe.x = 690;
             this.zombieAxe.y = 405;
             this.sword.y = -50;
         }
-        else {
+        if (this.hero.weaponSlot[this.hero.weaponSlotIndex] == "") {
             this.sword.y = -50;
             this.zombieAxe.y = -50;
         }
 
-        if (this.hero.items.helmet == 1 && this.hero.helmetSlotIndex == 1) {
+        if (this.hero.items.helmet == 1 && this.hero.helmetSlot[this.hero.helmetSlotIndex] == "helmet") {
             this.helmet.x = 740;
             this.helmet.y = 362;
-            this.zombieAxe.y = -50;
         }
-        else {
+        else if (this.hero.helmetSlot[this.hero.helmetSlotIndex] == "") {
             this.helmet.y = -50;
         }
 
+        if (this.hero.items.shield == 1 && this.hero.shieldSlot[this.hero.shieldSlotIndex] == "shield") {
+            this.shield.x = 793;
+            this.shield.y = 405;
+            this.dragonShield.y = -50;
+        }
+        else if (this.hero.items.dragonShield == 1 && this.hero.shieldSlot[this.hero.shieldSlotIndex] == "dragonShield") {
+            this.dragonShield.x = 793;
+            this.dragonShield.y = 405;
+            this.shield.y = -50;
+        }
+        else if (this.hero.shieldSlot[this.hero.shieldSlotIndex] == "") {
+            this.shield.y = -50;
+            this.dragonShield.y = -50;
+        }
 
-       
+        if (this.hero.items.chainmail == 1 && this.hero.bodySlot[this.hero.bodySlotIndex] == "chainmail") {
+            this.chainmail.x = 740;
+            this.chainmail.y = 405;
+        }
+        else if (this.hero.bodySlot[this.hero.bodySlotIndex] == "") {
+            this.chainmail.y = -50;
+        }
 
         // Equipment
         this.sword.on('pointerover', function(pointer) {
