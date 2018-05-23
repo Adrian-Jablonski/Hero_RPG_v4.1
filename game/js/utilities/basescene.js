@@ -689,6 +689,14 @@ class BaseScene extends Phaser.Scene {
                                 this.attackPower = 0;
                             }
                         }
+                        if (this.enemyFighting.name == "Zombie" && this.hero.weaponSlot[this.hero.weaponSlotIndex] != "zombieAxe") {
+                            if (this.enemyFighting.health == 1) {
+                                this.attackPower = 0;
+                            }
+                            else if (this.attackPower >= this.enemyFighting.health) {
+                                this.attackPower = this.enemyFighting.health - 1;
+                            }
+                        }
                             
                         if (specialAttackNumb == 0) {
                             this.attackPower = this.attackPower = Math.min(this.attackPower * 2, this.enemyFighting.health);
@@ -780,6 +788,13 @@ class BaseScene extends Phaser.Scene {
                             this.hero.health -= this.enemyAttackPower2;
                             this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} does ${this.enemyAttackPower} and ${this.enemyAttackPower2} damage to Hero`);
                             this.doubleDamageText = true;
+                        }
+                        else if (this.enemyFighting.name == "Dragon" && this.hero.shieldSlot[this.hero.shieldSlotIndex] != "dragonShield") {
+                            this.enemyAttackPower = this.hero.health;
+                            this.hero.health -= this.enemyAttackPower;
+                            this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} breathes fire and kills hero`);
+                            console.log("Dragon special")
+                            console.log(this.enemyAttackPower);
                         }
                     }
                     else {

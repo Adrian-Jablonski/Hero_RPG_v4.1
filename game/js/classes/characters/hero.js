@@ -5,10 +5,10 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
 
         this.name = "Hero";
-        this.power = 2;
-        this.defense = 2;
-        this.health = 10;
-        this.maxhealth = 10;
+        this.power = 50;
+        this.defense = 50;
+        this.health = 60;
+        this.maxhealth = 60;
         this.speed = 5;
         this.powerExp = Math.round((25 + (this.power)) * (this.power) / 1.13767) * (this.power - 1);
         this.defenseExp = Math.round((25 + (this.defense)) * (this.defense) / 1.13767) * (this.defense - 1);
