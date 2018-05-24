@@ -12,7 +12,6 @@ var request = require('request');
 
 
 router.get('/userPage',function(req,res){
-    var symbol = req.body.stock_symbol
     
     var user= req.user.username
     if (req.isAuthenticated() === null){
