@@ -275,6 +275,29 @@ class BaseScene extends Phaser.Scene {
 
         }
 
+        // Loads equipment from database
+        if (this.hero.items.sword == 1) {
+            this.hero.weaponSlot.push("sword");
+        }
+        if (this.hero.items.zombieAxe == 1) {
+            this.hero.weaponSlot.push("zombieAxe");
+        }
+
+        if (this.hero.items.shield == 1) {
+            this.hero.shieldSlot.push("shield");
+        }
+        if (this.hero.items.dragonShield == 1) {
+            this.hero.shieldSlot.push("dragonShield");
+        }
+
+        if (this.hero.items.helmet == 1) {
+            this.hero.helmetSlot.push("helmet");
+        }
+
+        if (this.hero.items.chainmail == 1) {
+            this.hero.bodySlot.push("chainmail");
+        }
+
         //create hero and enemy health bar off screen
         this.statusBarHero0 = this.add.image(-30, - 40, 'statusBar0');
         this.statusBarEnemy0 = this.add.image(-30, - 80, 'statusBar0');

@@ -57,8 +57,8 @@ class Hero extends Phaser.GameObjects.Sprite {
             "sword" : loadData['userData'][0]["sword"],
             "shield" : loadData['userData'][0]["shield"],
             "chainmail" : loadData['userData'][0]["chainmail"],
-            "zombieAxe" : loadData['userData'][0]["zombieAxe"],
-            "dragonShield" : loadData['userData'][0]["dragonShield"]
+            "zombieAxe" : loadData['userData'][0]["zombieaxe"],
+            "dragonShield" : loadData['userData'][0]["dragonshield"],
         }
         this.frozen = false;
         this.healing = false;
@@ -69,16 +69,16 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.defenseBenefit = Math.round(this.defenseLvAdj * .2);
         this.defenseTimes = Math.round(this.defenseLvAdj / 4);
         this.helmetSlot = [""];
-        this.helmetSlotIndex = loadData['userData'][0]["helmetslotindex"];
+        this.helmetSlotIndex = Number(loadData['userData'][0]["helmetslotindex"]);
         this.helmetBonus = 0;
         this.bodySlot = [""];
-        this.bodySlotIndex = loadData['userData'][0]["bodylotindex"];
+        this.bodySlotIndex = Number(loadData['userData'][0]["bodyslotindex"]);
         this.bodyBonus = 0;
         this.weaponSlot = [""];
-        this.weaponSlotIndex = loadData['userData'][0]["weaponlotindex"];;
+        this.weaponSlotIndex = Number(loadData['userData'][0]["weaponslotindex"]);
         this.weaponBonus = 0;
         this.shieldSlot = [""];
-        this.shieldSlotIndex = loadData['userData'][0]["shieldslotindex"];;
+        this.shieldSlotIndex = Number(loadData['userData'][0]["shieldslotindex"]);
         this.shieldBonus = 0;
 
         
