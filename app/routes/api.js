@@ -21,4 +21,12 @@ router.post('/characterStats', function (req, res) { // Creates an API so that o
     })
 })
 
+router.post('/highscorePower', function (req, res) { // Creates an API so that our front end can access our database 
+
+    db.any(`SELECT * FROM users ORDER BY powerexp desc`).then(function (powerStats) {
+        res.json({'powerStats': powerStats});
+        
+    })
+})
+
 module.exports = router;

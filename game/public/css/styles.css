@@ -148,7 +148,7 @@ table,
 th,
 td {
   border: 1px solid white;
-  width: 100%;
+  /* width: 100%; */
   
 }
 
@@ -170,4 +170,49 @@ font-family: 'Cinzel', serif;
     -webkit-text-stroke-color: white;
     font-size: 20px;
     
+}
+
+.highscore-container{
+    background: rgba(0, 0, 0, .85);
+    width: 75%;
+    margin: auto;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+font-family: 'Cinzel', serif;
+    font-size: 20px;
+    
+}
+
+highScoreHeading {
+    font-family: 'Cinzel', serif;
+}
+
+#powerHighScore {
+    color: gold;
+}
+
+.numbCol {
+    width: 70px;
+}
+
+.userNameCol {
+    width: 160px;
+}
+.levelCol {
+    width: 100px;
+}
+.levelExpCol {
+    width: 140px;
+}
+
+.powerLv {
+    color: green;
+}
+
+.defenseLv {
+    color: blue;
+}
+
+.healthLv {
+    color: red;
 }
