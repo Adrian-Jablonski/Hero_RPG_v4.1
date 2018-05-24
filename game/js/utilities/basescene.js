@@ -227,6 +227,10 @@ class BaseScene extends Phaser.Scene {
             this.heroYPos = 250;
         }
 
+        if (this.key == "Main") {
+            this.heroYPos = -50;
+        }
+
         if (this.heroStats === undefined) {
             this.hero = new Hero({
                 key: 'hero',
@@ -492,6 +496,7 @@ class BaseScene extends Phaser.Scene {
 
     update(delta) {
         // Information to send to database
+        
         this.playerStats = {
             username: this.hero.username,
             x: this.hero.x,
@@ -523,8 +528,14 @@ class BaseScene extends Phaser.Scene {
             shieldSlot: this.hero.shieldSlot,
             shieldSlotIndex: this.hero.shieldSlotIndex,
             shieldBonus: this.hero.shieldBonus,
-            currentArea: this.key,
 
+        }
+        // To prevent main menu from being passed to database
+        if (this.key !=  "Main") {
+            this.playerStats.currentArea = this.key;
+        }
+        else {
+            this.playerStats.currentArea = this.hero.currentArea
         }
 
         //Checks if enemy is within range of attacking
@@ -792,26 +803,26 @@ class BaseScene extends Phaser.Scene {
                     if (specialAttackNumb == 0 && this.enemyFighting.name != "Shadow") {
                         if (this.enemyFighting.name == "Goblin" && this.hero.coins >= 2) {
                             this.hero.coins -= 2;
-                            this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero and steals 2 coins`);
+                            this.historyLineTextList.unshift(`COIN GRAB ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero and steals 2 coins`);
                         }
                         else if (this.enemyFighting.name == "Death Knight") {
                             var healing = Math.min(this.enemyAttackPower, (this.enemyFighting.maxhealth - this.enemyFighting.health));
                             this.enemyFighting.health += healing;
-                            this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero and heals ${healing}`);
+                            this.historyLineTextList.unshift(`LIFESTEAL ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero and heals ${healing}`);
                         }
                         else if (this.enemyFighting.name == "Wizard") {
                             this.hero.frozen = true;
                             this.hero.speed = 0;
                             this.historyLineTextList.unshift(`Hero is frozen and can't move`);
                             this.historyLineTextColor.unshift("Blue");
-                            this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero`);
+                            this.historyLineTextList.unshift(`FREEZE RAY ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero`);
                         }
                         else if (this.enemyFighting.name == "Ranger") {
                             this.damageTextLocationX = 13
                             this.enemyAttackPower2 = Math.floor(Math.random() * (this.enemyFighting.power + 4));
                             this.enemyAttackPower2 = Math.min(Math.round(this.enemyAttackPower2 /3.1), this.hero.health);
                             this.hero.health -= this.enemyAttackPower2;
-                            this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} does ${this.enemyAttackPower} and ${this.enemyAttackPower2} damage to Hero`);
+                            this.historyLineTextList.unshift(`DOUBLE SHOT${this.enemyFighting.name} does ${this.enemyAttackPower} and ${this.enemyAttackPower2} damage to Hero`);
                             this.doubleDamageText = true;
                         }
                         else if (this.enemyFighting.name == "Dragon" && this.hero.shieldSlot[this.hero.shieldSlotIndex] != "dragonShield") {
@@ -965,7 +976,8 @@ class BaseScene extends Phaser.Scene {
         }
         if (this.hero.healthExp >= this.hero.nextHealthLevelExp) {
             this.hero.health += 1;
-            this.hero.nextHealthLevelExp = Math.round(((25 + (this.hero.health + 1)) * (this.hero.health + 1) / 1.13767) * this.hero.health);
+            this.hero.maxhealth += 1;
+            this.hero.nextHealthLevelExp = Math.round(((25 + (this.hero.maxhealth + 1)) * (this.hero.maxhealth + 1) / 1.13767) * this.hero.maxhealth);
         }
 
 
@@ -1128,27 +1140,30 @@ class BaseScene extends Phaser.Scene {
 
         // socket.emit('playerStats', this.hero);
 
-        this.minuteTimer2 = Date.now();
+        if (this.key != "Main") {
+            this.minuteTimer2 = Date.now();
         // runs every minute
-        if (this.minuteTimer2 - 60000 >= this.minuteTimer) {
-            console.log("1 minute passed")
-            this.minuteTimer = Date.now();
-            if (this.hero.health < this.hero.maxhealth) {
-                this.hero.health += 1;
-            }
-            for (var i = 0; i < this.enemies.length; i ++) {
-                if (this.enemies[i].health < this.enemies[i].maxhealth) {
-                    this.enemies[i].health += 1
+            if (this.minuteTimer2 - 10000 >= this.minuteTimer) {
+                console.log("1 minute passed")
+                this.minuteTimer = Date.now();
+                if (this.hero.health < this.hero.maxhealth) {
+                    this.hero.health += 1;
+                }
+                for (var i = 0; i < this.enemies.length; i ++) {
+                    if (this.enemies[i].health < this.enemies[i].maxhealth) {
+                        this.enemies[i].health += 1
+                    }
                 }
             }
-        }
 
-        this.minuteTimer3 = Date.now();
-        if (this.minuteTimer3 - 5000 >= this.minuteTimer) {
-            socket.emit('playerStats', this.playerStats); // sends to server
-            this.minuteTimer4 = Date.now();
-            // console.log(this.playerStats);
+            this.minuteTimer3 = Date.now();
+            if (this.minuteTimer3 - 3000 >= this.minuteTimer) {
+                socket.emit('playerStats', this.playerStats); // sends to server
+                this.minuteTimer4 = Date.now();
+                // console.log(this.playerStats);
+            }
         }
+        
 
     }
     

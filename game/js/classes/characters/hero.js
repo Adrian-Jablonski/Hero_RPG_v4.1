@@ -8,9 +8,8 @@ $(document).ready(function(){
     var success = function(res){
         console.log("API Response ", res)
         loadData = res;
-        console.log(loadData['userData'][0]["username"])
-        $("#username").html(loadData['userData'][0]["username"])
-        // console.log(loadData['userData'][0]["user"])
+        console.log("Username", loadData['userData'][0]["username"])
+        $("#username").html(loadData['userData'][0]["username"]);
 
     }
     $.ajax({
@@ -46,7 +45,7 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.powerExp = loadData['userData'][0]["powerexp"];
         this.defenseExp =  loadData['userData'][0]["defenseexp"];
         this.healthExp = loadData['userData'][0]["healthexp"];
-        this.nextHealthLevelExp = Math.round(((25 + (this.health + 1)) * (this.health + 1) / 1.13767) * this.health);
+        this.nextHealthLevelExp = Math.round(((25 + (this.maxhealth + 1)) * (this.maxhealth + 1) / 1.13767) * this.maxhealth);
         this.nextPowerLevelExp = Math.round(((25 + (this.power + 1)) * (this.power + 1) / 1.13767) * this.power);
         this.nextDefenseLevelExp = Math.round(((25 + (this.defense + 1)) * (this.defense + 1) / 1.13767) * this.defense);
         this.coins = loadData['userData'][0]["coins"];
@@ -82,6 +81,7 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.shieldSlot = [""];
         this.shieldSlotIndex = Number(loadData['userData'][0]["shieldslotindex"]);
         this.shieldBonus = 0;
+        this.currentArea = loadData['userData'][0]["currentarea"]
 
         
     }    

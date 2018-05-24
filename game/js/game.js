@@ -2,7 +2,7 @@ var config = {
     type: Phaser.AUTO,
     width: 850,
     height: 700,
-    scene: [Area98_100, Area99_100,
+    scene: [Main, Area98_100, Area99_100,
         Store,
         Area98_101, Area98_102, Area98_103, Area98_104,Area98_105,Area98_106, Area98_107,
         Area98_112,

@@ -54,7 +54,7 @@ router.post('/signup', function(req, res){
     let shieldSlot = [""];
     let shieldSlotIndex = 0;
     let shieldBonus = 0;
-    let currentArea = "98_100";
+    let currentArea = "Area98_100";
     
 
     db.none('INSERT INTO users(username, password, email, xposition, yposition, power, defense, health, maxhealth, powerexp, defenseexp, healthexp, coins, healingpotion, helmet, sword, shield, chainmail, zombieaxe, dragonshield, helmetslot, helmetslotindex, helmetbonus, bodyslot, bodyslotindex, bodybonus, weaponslot, weaponslotindex, weaponsbonus, shieldslot, shieldslotindex, shieldbonus, currentarea) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33)', [username, password, email, xposition, yposition, power, defense, health, maxhealth, powerExp, defenseExp, healthExp, coins, healingPotion, helmet, sword, shield, chainmail, zombieAxe, dragonshield, helmetSlot, helmetSlotIndex, helmetBonus, bodySlot, bodySlotIndex, bodyBonus, weaponSlot, weaponSlotIndex, weaponBonus, shieldSlot, shieldSlotIndex, shieldBonus, currentArea]).then(function(result){
