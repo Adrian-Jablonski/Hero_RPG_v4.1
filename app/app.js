@@ -50,12 +50,38 @@ app.get('/play', function (req, res) {
 
   function playerstats (data) {
     var user = data.username;
-    // var user = "Adrian2";
-    var powerExp = data.powerExp;
     var powerLv = data.power;
+    var defenseLv = data.defense;
+    var healthLv = data.health;
+    var maxhealth = data.maxhealth;
+    var powerExp = data.powerExp;
+    var defenseExp = data.defenseExp;
+    var healthExp = data.healthExp;
+    var coins = data.coins;
+    var healingPotion = data.healingPotion;
+    var helmet = data.helmet;
+    var sword = data.sword;
+    var shield = data.shield;
+    var chainmail = data.chainmail;
+    var zombieAxe= data.zombieAxe;
+    var dragonShield= data.dragonShield;
+    var helmetSlot= data.helmetSlot;
+    var helmetSlotIndex= data.helmetSlotIndex;
+    var helmetBonus= data.helmetBonus;
+    var bodySlot= data.bodySlot;
+    var bodySlotIndex= data.bodySlotIndex;
+    var bodyBonus= data.bodyBonus;
+    var weaponSlot= data.weaponSlot;
+    var weaponSlotIndex= data.weaponSlotIndex;
+    var weaponBonus= data.weaponBonus;
+    var shieldSlot= data.shieldSlot;
+    var shieldSlotIndex= data.shieldSlotIndex;
+    var shieldBonus= data.shieldBonus;
+    var currentArea = data.currentArea;
     // console.log("Node test", data);
     // console.log("Power exp", data.powerExp)
-    db.any('UPDATE users SET power = $2, powerexp = $3 WHERE username = $1', [user, powerLv, powerExp]).catch(function(err){
+    
+    db.any('UPDATE users SET power = $2, defense = $3, health = $4, maxhealth = $5, powerexp = $6, defenseexp = $7, healthexp = $8, coins = $9, healingpotion = $10, helmet = $11, sword = $12, shield = $13, chainmail = $14, zombieaxe = $15, dragonshield = $16, helmetslot = $17, helmetbonus = $18, bodyslot = $19, bodybonus = $20, weaponslot = $21, weaponsbonus = $22, shieldslot = $23, shieldbonus = $24, currentarea = $25, weaponslotindex = $26, helmetslotindex = $27, bodyslotindex = $28, shieldslotindex = $29 WHERE username = $1', [user, powerLv, defenseLv, healthLv, maxhealth, powerExp, defenseExp, healthExp, coins, healingPotion, helmet, sword, shield, chainmail, zombieAxe, dragonShield, helmetSlot, helmetBonus, bodySlot, bodyBonus, weaponSlot, weaponBonus, shieldSlot, shieldBonus, currentArea, weaponSlotIndex, helmetSlotIndex, bodySlotIndex, shieldSlotIndex]).catch(function(err){
       console.log(err);
   });
   };

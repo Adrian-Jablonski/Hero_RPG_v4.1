@@ -9,6 +9,7 @@ $(document).ready(function(){
         console.log("API Response ", res)
         loadData = res;
         console.log(loadData['userData'][0]["username"])
+        $("#username").html(loadData['userData'][0]["username"])
         // console.log(loadData['userData'][0]["user"])
 
     }
@@ -19,6 +20,7 @@ $(document).ready(function(){
         dataType: 'json'
     });
 })
+
 
 // var helmetSlot1 = [""];
 // var bodySlot = [""];
