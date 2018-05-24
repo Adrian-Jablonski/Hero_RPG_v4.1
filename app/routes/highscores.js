@@ -33,6 +33,9 @@ router.get('/highscores', function(req, res) {
             
         });
     })
+    db.any(`SELECT * FROM users ORDER BY powerexp desc`).then(function (powerStats) {
+        res.json({'powerStats': powerStats});
+    })
 })
 
 

@@ -14,7 +14,7 @@ class Goblin extends Phaser.GameObjects.Sprite {
         this.height = 32;
         this.respawnTime = 200;
         this.respawnTimer = 200;
-        this.bounty = [5, 5, 6, 6, 8, 10];
+        this.bounty = [8, 8, 10, 10, 12, 14];
         this.attackRange = 40;
         this.battleMode = false;
         this.speed = .5;

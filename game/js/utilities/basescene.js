@@ -422,20 +422,22 @@ class BaseScene extends Phaser.Scene {
                 // Attack stance button
                 if (attackStance(this.mouseClickX, this.mouseClickY) == "Aggressive") {
                     this.hero.attackStance = "Aggressive";
-                    this.hero.powerLvAdj = this.hero.power + 3 + this.weaponBonus;
+                    this.hero.powerLvAdj = this.hero.power + 3 + this.hero.weaponBonus;
                     this.hero.defenseLvAdj = Math.max(this.hero.defense - 3, 1) + this.totalDefenseBonus;
                 }
                 else if (attackStance(this.mouseClickX, this.mouseClickY) == "Defensive") {
                     this.hero.attackStance = "Defensive";
-                    this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1) + this.weaponBonus;
+                    this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1) + this.hero.weaponBonus;
                     this.hero.defenseLvAdj = this.hero.defense + 3 + this.totalDefenseBonus;
                 }
                 else if (attackStance(this.mouseClickX, this.mouseClickY) == "Normal") {
                     this.hero.attackStance = "Normal";
-                    this.hero.powerLvAdj = this.hero.power + this.weaponBonus;
+                    this.hero.powerLvAdj = this.hero.power + this.hero.weaponBonus;
                     this.hero.defenseLvAdj = this.hero.defense + this.totalDefenseBonus;
                 }
-    
+                
+                console.log(this.hero.powerLvAdj)
+                console.log(this.hero.weaoponBonus)
                 // healing potion
                 if (this.mouseClickX >= 538 && this.mouseClickX <= 558 && this.mouseClickY >= 315 && this.mouseClickY <= 342) {
                     if (this.hero.items.healingPotion > 0) {
@@ -1126,13 +1128,13 @@ class BaseScene extends Phaser.Scene {
         else if (this.hero.attackStance == "Defensive") {
             this.radioButton.x = 692;
             this.radioButton.y = 530;
-            this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1) + this.weaponBonus;
+            this.hero.powerLvAdj = Math.max(this.hero.power - 3, 1) + this.hero.weaponBonus;
             this.hero.defenseLvAdj = this.hero.defense + 3 + this.totalDefenseBonus;
         }
         else if (this.hero.attackStance == "Normal") {
             this.radioButton.x = 552;
             this.radioButton.y = 572;
-            this.hero.powerLvAdj = this.hero.power  + this.weaponBonus;
+            this.hero.powerLvAdj = this.hero.power  + this.hero.weaponBonus;
             this.hero.defenseLvAdj = this.hero.defense + this.totalDefenseBonus;
         }
         // console.log("Adjusted Power Level", this.hero.powerLvAdj )
