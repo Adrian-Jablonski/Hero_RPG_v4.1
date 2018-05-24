@@ -32,21 +32,22 @@ app.use(require('./routes/highscores'))
 app.use(require('./routes/screenshots'))
 app.use(require('./routes/howtoplay'))
 app.use(require("./routes/api"))
+app.use(require("./routes/userPage2"))
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+
+var path = require('path')
 
 
 
 app.use(express.static(__dirname + '/../game/'));
 
 app.get('/play', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    // res.sendFile(__dirname + '/../game/index.html')
+    res.sendFile(path.resolve('../game/index.html'));
   });
-   
-   app.get('/test', function (req, res) {
-    res.send('hello world')
-  });
+
 
   function playerstats (data) {
     var user = data.username;

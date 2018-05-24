@@ -11,12 +11,18 @@ var fetch = require('node-fetch');
 var request = require('request');
 
 
-router.get('/userPage',function(req,res){
+router.get('/',function(req,res){
+    var user = "Guest"
     
-    var user= req.user.username
-    if (req.isAuthenticated() === null){
-        res.redirect('/login')
-    }
+        try {
+            user= req.user.username
+        // if (req.isAuthenticated() === null){
+        //     res.redirect('/login')
+        // }
+        }
+        catch(err) {
+            console.log(err);
+        }
     
     db.any('SELECT * FROM users').then(function(data){
 
@@ -29,6 +35,7 @@ router.get('/userPage',function(req,res){
             
         });
     })
+    
 })
 
 

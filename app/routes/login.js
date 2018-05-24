@@ -24,15 +24,24 @@ const db = pgp(config);
 
 router.use(cookieParser())
 
-router.use(session({
-    secret: 'mySecretSessionKey',
-    resave: true,
-    saveUninitialized: true,
-    store: new (require('connect-pg-simple')(session))({conObject: config}),
-    cookie: {maxAge: 2000000}
+// router.use(session({
+//     secret: 'mySecretSessionKey',
+//     resave: true,
+//     saveUninitialized: true,
+//     store: new (require('connect-pg-simple')(session))({conObject: config}),
+//     cookie: {maxAge: 2000000}
     
 
+// }));
+
+router.use(session({
+    secret: 'mySecretSessionKey',
+    resave: false,
+    saveUninitialized: false,
+    store: new (require('connect-pg-simple')(session))({conObject: config}),
+    cookie: {maxAge: 2000000}
 }));
+
 router.use(passport.initialize());
 router.use(passport.session());
 

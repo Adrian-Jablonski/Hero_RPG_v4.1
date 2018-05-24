@@ -1143,7 +1143,7 @@ class BaseScene extends Phaser.Scene {
         if (this.key != "Main") {
             this.minuteTimer2 = Date.now();
         // runs every minute
-            if (this.minuteTimer2 - 10000 >= this.minuteTimer) {
+            if (this.minuteTimer2 - 60000 >= this.minuteTimer) {
                 console.log("1 minute passed")
                 this.minuteTimer = Date.now();
                 if (this.hero.health < this.hero.maxhealth) {

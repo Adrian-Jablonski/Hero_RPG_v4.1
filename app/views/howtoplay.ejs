@@ -3,7 +3,12 @@
 <% include partials/template/head.ejs %>
 <body>
     
+    <% if (user == "Guest") { %>
+        <% include partials/template/navBar.ejs %>
+    <% } %>
+    <% if (user != "Guest") { %>
         <% include partials/template/navbarAuth.ejs %>
+    <% } %>
         
     </div>
     <div id="site-intro">

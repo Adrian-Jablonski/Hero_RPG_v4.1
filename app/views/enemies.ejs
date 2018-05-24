@@ -2,7 +2,12 @@
 <html>
         <% include partials/template/head.ejs %>
 <body>
+    <% if (user == "Guest") { %>
+        <% include partials/template/navBar.ejs %>
+    <% } %>
+    <% if (user != "Guest") { %>
         <% include partials/template/navbarAuth.ejs %>
+    <% } %>
 
             <div id="site-intro">
                     <img id="logo-img" src="public/images/sidepages/enemylist.png"/>

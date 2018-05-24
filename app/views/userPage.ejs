@@ -3,15 +3,25 @@
 <% include partials/template/head.ejs %>
 <body>
     
-    <% include partials/template/navbarAuth.ejs %>
+    <% if (user == "Guest") { %>
+        <% include partials/template/navBar.ejs %>
+    <% } %>
+    <% if (user != "Guest") { %>
+        <% include partials/template/navbarAuth.ejs %>
+    <% } %>
+    
     <main id="main">
         <div id="primary" class="container clr">
             <div id="site-intro"><img id="logo-img" src="public/images/mainpage/kingdomlogo.png"/></div>
                 <div class="container enemies-container">
-                <div id="game-description"> Kingdom of Objalinsk is a live action web based RPG where you kill enemies, acquire wealth, buy items, become stronger, and conquer the kingdom.  Join the adventure!
+                <div id="game-description"> Kingdom of Objalinsk is a live action web based RPG where you kill enemies, acquire wea
+                    lth, buy items, become stronger, and conquer the kingdom.  Join the adventure!
                     </div>
-                    <div id="play-button"><a href="playlink"><img src="public/images/mainpage/button_bg.gif"/></a>
-                    </div>
+                    <% if (user != "Guest") { %>
+                        <div id="play-button"><a href="/play"><img src="public/images/mainpage/button_bg.gif"/></a>
+                        </div>
+                    <% } %>
+                    
                 
             
         

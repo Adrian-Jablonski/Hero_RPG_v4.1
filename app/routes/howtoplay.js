@@ -12,12 +12,19 @@ var request = require('request');
 
 
 router.get('/howtoplay', function(req, res) {
-    if (req.isAuthenticated() === null){
-        res.redirect('/login')
+    var user = "Guest"
+    
+    try {
+        user= req.user.username
+    // if (req.isAuthenticated() === null){
+    //     res.redirect('/login')
+    // }
+    }
+    catch(err) {
+        console.log(err);
     }
     
     db.any('SELECT * FROM users').then(function(data){
-        var user= req.user.username
         // res.render(page to render, object to pass to the page)
         res.render('howtoplay',{
             pageTitle: "How to play page",
