@@ -40,7 +40,7 @@ class Hero extends Phaser.GameObjects.Sprite {
         this.defense = loadData['userData'][0]["defense"];
         this.health = loadData['userData'][0]["health"];
         this.maxhealth = loadData['userData'][0]["maxhealth"];
-        this.speed = 5;
+        this.speed = 2;
         // this.powerExp = Math.round((25 + (this.power)) * (this.power) / 1.13767) * (this.power - 1);
         this.powerExp = loadData['userData'][0]["powerexp"];
         this.defenseExp =  loadData['userData'][0]["defenseexp"];

@@ -13,6 +13,7 @@ var wizard = ('/assets/sprites/characters/wizard.png');
 var ranger = ('/assets/sprites/characters/ranger.png');
 var zombie = ('/assets/sprites/characters/zombie.png');
 var dragon = ('/assets/sprites/characters/dragon.png');
+var dragonKing = ('/assets/sprites/characters/dragonking.png');
 
 var statusBar100 = ('/assets/sprites/Status_Bars/Status_Bar100.png');
 var statusBar0 = ('/assets/sprites/Status_Bars/Status_Bar0.png');
@@ -68,6 +69,7 @@ class BaseScene extends Phaser.Scene {
         this.load.image('ranger', ranger);
         this.load.image('zombie', zombie);
         this.load.image('dragon', dragon);
+        this.load.image('dragonKing', dragonKing);
 
         // Status Bars
         this.load.image('statusBar100', statusBar100);
@@ -780,7 +782,7 @@ class BaseScene extends Phaser.Scene {
                     this.doubleDamageText = false;
                     this.damageTextLocationX = 5;
                     this.hero.frozen = false; // unfreezes hero if frozen
-                    this.hero.speed = 1.3;
+                    this.hero.speed = 2;
                     var count = 0;
                     var specialAttackNumb = Math.floor(Math.random() * (1/this.enemyFighting.specialAttackPerc));
                     this.enemyAttackPower = Math.floor(Math.random() * (this.enemyFighting.power + 4));
@@ -805,12 +807,14 @@ class BaseScene extends Phaser.Scene {
                     if (specialAttackNumb == 0 && this.enemyFighting.name != "Shadow") {
                         if (this.enemyFighting.name == "Goblin" && this.hero.coins >= 2) {
                             this.hero.coins -= 2;
-                            this.historyLineTextList.unshift(`COIN GRAB ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero and steals 2 coins`);
+                            this.historyLineTextList.unshift(`COIN GRAB ${this.enemyFighting.name} steals 2 coins`);
                         }
                         else if (this.enemyFighting.name == "Death Knight") {
                             var healing = Math.min(this.enemyAttackPower, (this.enemyFighting.maxhealth - this.enemyFighting.health));
                             this.enemyFighting.health += healing;
-                            this.historyLineTextList.unshift(`LIFESTEAL ${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero and heals ${healing}`);
+                            this.historyLineTextList.unshift(`${this.enemyFighting.name} does ${this.enemyAttackPower} damage to Hero`);
+                            this.historyLineTextList.unshift(`LIFESTEAL ${this.enemyFighting.name} heals ${healing}`);
+                            this.historyLineTextColor.unshift("Red");
                         }
                         else if (this.enemyFighting.name == "Wizard") {
                             this.hero.frozen = true;
@@ -824,10 +828,10 @@ class BaseScene extends Phaser.Scene {
                             this.enemyAttackPower2 = Math.floor(Math.random() * (this.enemyFighting.power + 4));
                             this.enemyAttackPower2 = Math.min(Math.round(this.enemyAttackPower2 /3.1), this.hero.health);
                             this.hero.health -= this.enemyAttackPower2;
-                            this.historyLineTextList.unshift(`DOUBLE SHOT${this.enemyFighting.name} does ${this.enemyAttackPower} and ${this.enemyAttackPower2} damage to Hero`);
+                            this.historyLineTextList.unshift(`DOUBLE SHOT ${this.enemyFighting.name} does ${this.enemyAttackPower} and ${this.enemyAttackPower2} damage to Hero`);
                             this.doubleDamageText = true;
                         }
-                        else if (this.enemyFighting.name == "Dragon" && this.hero.shieldSlot[this.hero.shieldSlotIndex] != "dragonShield") {
+                        else if (this.enemyFighting.name == "Dragon" || this.enemyFighting.name == "Dragon King" && this.hero.shieldSlot[this.hero.shieldSlotIndex] != "dragonShield") {
                             this.enemyAttackPower = this.hero.health;
                             this.hero.health -= this.enemyAttackPower;
                             this.historyLineTextList.unshift(`SPECIAL ATTACK ${this.enemyFighting.name} breathes fire and kills hero`);
@@ -909,7 +913,7 @@ class BaseScene extends Phaser.Scene {
             this.enemyFighting.battleMode = false;
             this.attackEnemy = false;
             this.hero.frozen = false;
-            this.hero.speed = 1.3;
+            this.hero.speed = 2;
             this.doubleDamageText = false;
             // hides status bars
             this.statusBarHero100.y = -40;
@@ -968,6 +972,8 @@ class BaseScene extends Phaser.Scene {
             this.hero.power += 1;
             this.hero.nextPowerLevelExp = Math.round(((25 + (this.hero.power + 1)) * (this.hero.power + 1) / 1.13767) * this.hero.power);
             this.powerLvAdj += 1;
+            this.historyLineTextList.unshift(`Hero's power is now level ${this.hero.power}`);
+            this.historyLineTextColor.unshift("Gold");
         }
         if (this.hero.defenseExp >= this.hero.nextDefenseLevelExp) {
             this.hero.defense += 1;
@@ -975,11 +981,15 @@ class BaseScene extends Phaser.Scene {
             this.hero.defenseBenefit = Math.round(this.hero.defense * .2);
             this.hero.defenseTimes = Math.round(this.hero.defense / 4);
             this.defenseLvAdj += 1;
+            this.historyLineTextList.unshift(`Hero's defense is now level ${this.hero.defense}`);
+            this.historyLineTextColor.unshift("Gold");
         }
         if (this.hero.healthExp >= this.hero.nextHealthLevelExp) {
             this.hero.health += 1;
             this.hero.maxhealth += 1;
             this.hero.nextHealthLevelExp = Math.round(((25 + (this.hero.maxhealth + 1)) * (this.hero.maxhealth + 1) / 1.13767) * this.hero.maxhealth);
+            this.historyLineTextList.unshift(`Hero's health is now level ${this.hero.maxhealth}`);
+            this.historyLineTextColor.unshift("Gold");
         }
 
 

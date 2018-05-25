@@ -27,7 +27,7 @@ class Area99_114 extends BaseScene {
             westChange : `Area${currArea[0] - 1}_${currArea[1]}`
         }
 
-        var Enemy1 = {class: Dragon, name: "dragon", walkAreaX: [220, 250], walkAreaY: [220, 250], x: 230, y: 230}
+        var Enemy1 = {class: DragonKing, name: "dragonKing", walkAreaX: [220, 250], walkAreaY: [220, 250], x: 230, y: 230}
         var Enemy2 = "None"
         var Enemy3 = "None"
         var Enemy4 = "None"
