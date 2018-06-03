@@ -57,13 +57,13 @@ class Store extends BaseScene {
         this.storeLine1Price = this.add.text(65, 185, "15", {font:"14px Ariel", color:"Yellow"});
         this.storeLine1Desc = this.add.text(55, 153, "+ 10 hp", {font:"14px Ariel", color:'white'});
 
-        this.storeSlot2 = this.add.image(189, 161, 'storeSlot');
+        this.storeSlot2 = this.add.image(189, 161, 'storeSlot').setInteractive();;
         this.storeLine2Text = this.add.text(170, 120, "Helmet", {font:"16px Ariel", color:this.neon});
         this.helmet2 = this.add.image(151, 160, 'helmet');
         this.storeLine2Price = this.add.text(180, 185, "800", {font:"14px Ariel", color:"Yellow"});
         this.storeLine2Desc = this.add.text(170, 153, "+ 3 Defense", {font:"14px Ariel", color:'white'});
 
-        this.storeSlot3 = this.add.image(308, 161, 'storeSlot');
+        this.storeSlot3 = this.add.image(308, 161, 'storeSlot').setInteractive();;
         this.storeLine3Text = this.add.text(288, 120, "Sword", {font:"16px Ariel", color:this.neon});
         this.sword2 = this.add.image(275, 160, 'sword');
         this.storeLine3Price = this.add.text(290, 185, "1,100", {font:"14px Ariel", color:"Yellow"});
@@ -77,13 +77,13 @@ class Store extends BaseScene {
         this.storeLine4Price = this.add.text(52, 272, "1,200", {font:"14px Ariel", color:"Yellow"});
         this.storeLine4Desc = this.add.text(55, 240, "+ 5 Defense", {font:"14px Ariel", color:'white'});
 
-        this.storeSlot5 = this.add.image(189, 248, 'storeSlot');
+        this.storeSlot5 = this.add.image(189, 248, 'storeSlot').setInteractive();;
         this.storeLine5Text = this.add.text(153, 207, "Chainmail", {font:"16px Ariel", color:this.neon});
         this.chainmail2 = this.add.image(151, 247, 'chainmail');
         this.storeLine5Price = this.add.text(170, 272, "2,500", {font:"14px Ariel", color:"Yellow"});
         this.storeLine5Desc = this.add.text(170, 240, "+ 7 Defense", {font:"14px Ariel", color:'white'});
 
-        this.storeSlot6 = this.add.image(308, 248, 'storeSlot');
+        this.storeSlot6 = this.add.image(308, 248, 'storeSlot').setInteractive();;
         this.storeLine6Text = this.add.text(272, 207, "Zombie Axe", {font:"16px Ariel", color:this.neon});
         this.zombieAxe2 = this.add.image(275, 247, 'zombieAxe');
         this.storeLine6Price = this.add.text(290, 272, "7,500", {font:"14px Ariel", color:"Yellow"});
@@ -107,17 +107,63 @@ class Store extends BaseScene {
         //  hover over text
 
         this.storeSlot1.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
+        this.storeSlot2.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
+        this.storeSlot3.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
+        this.storeSlot4.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
+        this.storeSlot5.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
+        this.storeSlot6.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
+        this.storeSlot7.text = this.add.text(20, 0, "", {font:"24px Ariel", color:"Red"});
          
-         this.storeSlot1.on('pointerover', function(pointer) {
+        this.storeSlot1.on('pointerover', function(pointer) {
              this.text.setText(`Click to buy a healing potion for 15 coins`);
-         })
-         this.storeSlot1.on('pointerout', function(pointer) {
-             this.text.setText('')
-         })
-
-        this.storeSlot1.on('pointerup', function(pointer) {
-            this.text.setText(`Click to buy a healing potion for 15 coins`);
         })
+        this.storeSlot1.on('pointerout', function(pointer) {
+             this.text.setText('')
+        })
+
+        this.storeSlot2.on('pointerover', function(pointer) {
+            this.text.setText(`Click to buy a helmet for 800 coins`);
+       })
+       this.storeSlot2.on('pointerout', function(pointer) {
+            this.text.setText('')
+       })
+
+        this.storeSlot3.on('pointerover', function(pointer) {
+            this.text.setText(`Click to buy a sword for 1,100 coins`);
+        })
+        this.storeSlot3.on('pointerout', function(pointer) {
+                this.text.setText('')
+        })
+
+        this.storeSlot4.on('pointerover', function(pointer) {
+            this.text.setText(`Click to buy a shield for 1,200 coins`);
+        })
+        this.storeSlot4.on('pointerout', function(pointer) {
+                this.text.setText('')
+        })
+
+        this.storeSlot5.on('pointerover', function(pointer) {
+            this.text.setText(`Click to buy chainmail for 2,500 coins`);
+        })
+        this.storeSlot5.on('pointerout', function(pointer) {
+                this.text.setText('')
+        })
+
+        this.storeSlot6.on('pointerover', function(pointer) {
+            this.text.setText(`Click to buy a zombie axe for 7,500 coins`);
+        })
+        this.storeSlot6.on('pointerout', function(pointer) {
+                this.text.setText('')
+        })
+
+        this.storeSlot7.on('pointerover', function(pointer) {
+            this.text.setText(`Click to buy a dragon shield for 19,500 coins`);
+        })
+        this.storeSlot7.on('pointerout', function(pointer) {
+                this.text.setText('')
+        })
+
+
 
         this.storeExitText.on('pointerover', function(pointer) {
             this.text.setText(`Click to Exit Store`);
@@ -138,6 +184,44 @@ class Store extends BaseScene {
                 this.hero.items.healingPotion += 1;
                 this.hero.coins -= 15;
                 console.log("Clicked potion");
+            }
+            else if (this.mouseClickX >= 136 && this.mouseClickX <= 246 && this.mouseClickY >= 124 && this.mouseClickY <= 206 && this.hero.items.helmet == 0) {
+                this.hero.items.helmet = 1;
+                this.hero.helmetSlot.push("helmet");
+                this.hero.coins -= 800;
+                this.hero.helmetSlotIndex = 1;
+            }
+            else if (this.mouseClickX >= 252 && this.mouseClickX <= 364 && this.mouseClickY >= 124 && this.mouseClickY <= 206 && this.hero.items.sword == 0) {
+                this.hero.items.sword = 1;
+                this.hero.coins -= 1100;
+                this.hero.weaponSlot.push("sword");
+                this.hero.weaponSlotIndex = 1;
+            }
+            // Row 2
+            else if (this.mouseClickX >= 16 && this.mouseClickX <= 124 && this.mouseClickY >= 210 && this.mouseClickY <= 291 && this.hero.items.shield == 0) {
+                this.hero.items.shield = 1;
+                this.hero.coins -= 1200;
+                this.hero.shieldSlot.push("shield");
+                this.hero.shieldSlotIndex = 1;
+            }
+            else if (this.mouseClickX >= 136 && this.mouseClickX <= 246 && this.mouseClickY >= 210 && this.mouseClickY <= 291 && this.hero.items.chainmail == 0) {
+                this.hero.items.chainmail = 1;
+                this.hero.coins -= 2500;
+                this.hero.bodySlot.push("chainmail");
+                this.hero.bodySlotIndex = 1;
+            }
+            else if (this.mouseClickX >= 252 && this.mouseClickX <= 364 && this.mouseClickY >= 210 && this.mouseClickY <= 291 && this.hero.items.zombieAxe == 0) {
+                this.hero.items.zombieAxe = 1;
+                this.hero.coins -= 7500;
+                this.hero.weaponSlot.push("zombieAxe");
+                this.hero.weaponSlotIndex = 2;
+            }
+            // row 3
+            else if (this.mouseClickX >= 16 && this.mouseClickX <= 124 && this.mouseClickY >= 300 && this.mouseClickY <= 377 && this.hero.items.dragonShield == 0) {
+                this.hero.items.dragonShield = 1;
+                this.hero.coins -= 19500;
+                this.hero.shieldSlot.push("dragonShield");
+                this.hero.shieldSlotIndex = 2;
             }
 
             },this);
