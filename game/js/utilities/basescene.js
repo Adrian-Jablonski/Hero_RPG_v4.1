@@ -266,13 +266,13 @@ class BaseScene extends Phaser.Scene {
             this.hero.defenseBenefit = this.heroStats.defenseBenefit;
             this.hero.defenseTimes = this.heroStats.defenseTimes;
             this.hero.items = this.heroStats.items;
-            this.hero.helmetSlot = this.heroStats.helmetSlot;
+            // this.hero.helmetSlot = this.heroStats.helmetSlot;
             this.hero.helmetSlotIndex = this.heroStats.helmetSlotIndex
-            this.hero.bodySlot = this.heroStats.bodySlot;
+            // this.hero.bodySlot = this.heroStats.bodySlot;
             this.hero.bodySlotIndex = this.heroStats.bodySlotIndex
-            this.hero.weaponSlot = this.heroStats.weaponSlot;
+            // this.hero.weaponSlot = this.heroStats.weaponSlot;
             this.hero.weaponSlotIndex = this.heroStats.weaponSlotIndex
-            this.hero.shieldSlot = this.heroStats.shieldSlot;
+            // this.hero.shieldSlot = this.heroStats.shieldSlot;
             this.hero.shieldSlotIndex = this.heroStats.shieldSlotIndex;
             this.hero.helmetBonus = this.heroStats.helmetBonus;
             this.hero.bodyBonus = this.heroStats.bodyBonus;
@@ -351,7 +351,6 @@ class BaseScene extends Phaser.Scene {
         this.historyLogCount = this.add.text(440, 635, "0 / 0", {font:"12px Ariel"});
 
         this.coinText = this.add.text(705, 578, `${this.hero.coins}`, {color:"Yellow"})
-
         
         this.historyLineTextList = [];
         this.historyLineTextColor = [];
@@ -1169,7 +1168,7 @@ class BaseScene extends Phaser.Scene {
             }
 
             this.minuteTimer3 = Date.now();
-            if (this.minuteTimer3 - 3000 >= this.minuteTimer) {
+            if (this.minuteTimer3 - 2000 >= this.minuteTimer) {
                 socket.emit('playerStats', this.playerStats); // sends to server
                 this.minuteTimer4 = Date.now();
                 // console.log(this.playerStats);
