@@ -32,6 +32,9 @@ var chainmail = ('/assets/sprites/inventory/chainmail.png');
 var zombieAxe = ('/assets/sprites/inventory/zombieAxe.png');
 var dragonShield = ('/assets/sprites/inventory/dragonShield.png');
 
+var shield2 = ('/assets/sprites/inventory/shield2.png');
+var zombieAxe2 = ('/assets/sprites/inventory/zombieAxe2.png');
+
 class BaseScene extends Phaser.Scene {
     constructor(key) {
         super({ key });
@@ -87,6 +90,9 @@ class BaseScene extends Phaser.Scene {
         this.load.image('chainmail', chainmail);
         this.load.image('zombieAxe', zombieAxe);
         this.load.image('dragonShield', dragonShield);
+
+        this.load.image('shield2', shield2);
+        this.load.image('zombieAxe2', zombieAxe2);
 
         // Colors 
         this.neon = "#39FF14"
@@ -280,6 +286,14 @@ class BaseScene extends Phaser.Scene {
             this.hero.shieldBonus = this.heroStats.shieldBonus;
 
         }
+
+        // For character 
+        this.helmet2 = this.add.image(743, -50, 'helmet');
+        this.chainmail2 =  this.add.image(743, -50, 'chainmail');
+        this.shield2 =  this.add.image(743, -50, 'shield2');
+        this.dragonShield2 =  this.add.image(743, -50, 'dragonShield');
+        this.sword2 = this.add.sprite(743, -50, 'sword');
+        this.zombieAxe2 = this.add.sprite(743, -50, 'zombieAxe2');
 
         // Loads equipment from database
         if (this.hero.items.sword == 1) {
@@ -1057,55 +1071,78 @@ class BaseScene extends Phaser.Scene {
             this.sword.y = 405;
             this.zombieAxe.y = -50;
             this.hero.weaponBonus = 5;
+            this.sword2.x = this.hero.x - 3;
+            this.sword2.y = this.hero.y - 2;
+            this.zombieAxe2.y = -50;
         }
         if (this.hero.items.zombieAxe == 1 && this.hero.weaponSlot[this.hero.weaponSlotIndex] == "zombieAxe") {
             this.zombieAxe.x = 690;
             this.zombieAxe.y = 405;
             this.sword.y = -50;
             this.hero.weaponBonus = 1;
+            this.sword2.y = - 50;
+            this.zombieAxe2.x = this.hero.x - 17;
+            this.zombieAxe2.y = this.hero.y - 6;
         }
         if (this.hero.weaponSlot[this.hero.weaponSlotIndex] == "") {
             this.sword.y = -50;
             this.zombieAxe.y = -50;
             this.hero.weaponBonus = 0;
+            this.sword2.y = - 50;
+            this.zombieAxe2.y = -50;
         }
 
         if (this.hero.items.helmet == 1 && this.hero.helmetSlot[this.hero.helmetSlotIndex] == "helmet") {
             this.helmet.x = 740;
             this.helmet.y = 362;
             this.hero.helmetBonus = 3;
+            this.helmet2.x = this.hero.x - 2;
+            this.helmet2.y = this.hero.y - 19;
+            
         }
         else if (this.hero.helmetSlot[this.hero.helmetSlotIndex] == "") {
             this.helmet.y = -50;
             this.hero.helmetBonus = 0;
+            this.helmet2.y = -20;
         }
 
         if (this.hero.items.shield == 1 && this.hero.shieldSlot[this.hero.shieldSlotIndex] == "shield") {
             this.shield.x = 793;
             this.shield.y = 405;
+            this.shield2.x = this.hero.x + 12;
+            this.shield2.y = this.hero.y + 5;
             this.dragonShield.y = -50;
+            this.dragonShield2.y = -50;
             this.hero.shieldBonus = 5;
         }
         else if (this.hero.items.dragonShield == 1 && this.hero.shieldSlot[this.hero.shieldSlotIndex] == "dragonShield") {
             this.dragonShield.x = 793;
             this.dragonShield.y = 405;
+            this.dragonShield2.x = this.hero.x + 12;
+            this.dragonShield2.y = this.hero.y + 5;
             this.shield.y = -50;
             this.hero.shieldBonus = 2;
+            this.shield2.y = -50;
         }
         else if (this.hero.shieldSlot[this.hero.shieldSlotIndex] == "") {
             this.shield.y = -50;
             this.dragonShield.y = -50;
+            this.dragonShield2.y = -50;
             this.hero.shieldBonus = 0;
+            this.shield2.y = -50;
         }
 
         if (this.hero.items.chainmail == 1 && this.hero.bodySlot[this.hero.bodySlotIndex] == "chainmail") {
             this.chainmail.x = 740;
             this.chainmail.y = 405;
             this.hero.bodyBonus = 7;
+            this.chainmail2.x = this.hero.x - 1;
+            this.chainmail2.y = this.hero.y + 1;
         }
         else if (this.hero.bodySlot[this.hero.bodySlotIndex] == "") {
             this.chainmail.y = -50;
             this.hero.bodyBonus = 0;
+            this.chainmail2.y = -50;
         }
 
         this.equipmentPowerBonus.setText(`Power: +${this.hero.weaponBonus}`);
